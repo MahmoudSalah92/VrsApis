@@ -1,31 +1,30 @@
 package sa.gov.alriyadh.amana.controller;
 
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import sa.gov.alriyadh.amana.dto.response.GenericApiResponse;
-import sa.gov.alriyadh.amana.srinterface.IJobRequestService;
+import sa.gov.alriyadh.amana.entity.VrsRole;
+import sa.gov.alriyadh.amana.services.VrsRolesService;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/serviceController")
+@RequestMapping("/vrs/api/services/")
 @Validated
 public class ServiceController {
 
-	@Autowired
-	IJobRequestService jobRequestService;
+    @Autowired
+    VrsRolesService rolesService;
 
-	//WebClient.Builder builder = WebClient.builder();
-	@Autowired
-	private WebClient webClient;
 
-	@GetMapping("/testGenericResponse")
-	public GenericApiResponse<?> testGenericResponse(@NotBlank(message = "{NO_DATA_FOUND}") @RequestParam String text){
-		return GenericApiResponse.returnJsonTemp("0",null,"testtttt");
-	}
+    @GetMapping("/userRoles")
+    public GenericApiResponse<?> getVrsUserRoles() {
+        List<VrsRole> roles = rolesService.getUserRoles();
+        return GenericApiResponse.returnJsonTemp("0", null, roles);
+    }
 
 
 }
