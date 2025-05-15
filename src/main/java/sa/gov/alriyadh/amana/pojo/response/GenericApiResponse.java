@@ -22,7 +22,7 @@ public class GenericApiResponse<T> {
     T outputData;
 
     // Static helper methods
-    public static  <T> GenericApiResponse<T> returnJsonTemp(String status , String message, T outputData) {
+    public static <T> GenericApiResponse<T> returnJsonTemp(String status, String message, T outputData) {
         Map<String, Object> statusDetails = new HashMap<String, Object>();
         // Map<String, Object> outData = new HashMap<String, Object>();
         String processId = UUID.randomUUID().toString();
@@ -37,7 +37,7 @@ public class GenericApiResponse<T> {
             statusDetails.put("ProcessId", processId);
             statusDetails.put("processTime", new Date().toString());
         }
-        return  new GenericApiResponse<T>((T) statusDetails,  outputData);
+        return new GenericApiResponse<T>((T) statusDetails, outputData);
     }
 
 }

@@ -13,15 +13,24 @@ import java.time.LocalDate;
 public class VrsRequestDto {
 
     private Long requestSerial;
+
     @NotNull
-    private LocalDate requestDate;
+    private LocalDate startDate;
+
+    @NotNull
+    private LocalDate endDate;
+
     @NotNull
     private Long requestPhaseId;
 
     @NotNull
     private Long dirType;
+
     @NotNull
     private Long dirCode;
+
+    @NotNull
+    private String userCode;
 
     private String notes;
 

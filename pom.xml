@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>sa.gov.alriyadh.amana</groupId>
-    <artifactId>TemplateApis</artifactId>
+    <artifactId>IntimaaApis</artifactId>
     <version>0.0.1-VrsApis</version>
     <packaging>war</packaging>
     <name>VrsApis</name>
