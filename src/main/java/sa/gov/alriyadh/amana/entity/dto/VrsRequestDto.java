@@ -14,6 +14,8 @@ public class VrsRequestDto {
 
     private Long requestSerial;
 
+    private LocalDate requestDate;
+
     @NotNull
     private LocalDate startDate;
 

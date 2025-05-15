@@ -16,7 +16,7 @@ public class VrsRequest {
     @Column(name = "REQUEST_SERIAL", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VRS_REQUESTS_SEQ")
     @SequenceGenerator(name = "VRS_REQUESTS_SEQ", sequenceName = "VRS_REQUESTS_SEQ", allocationSize = 1, schema = "VRS")
-    private Long id;
+    private Long requestSerial;
 
     @Column(name = "REQUEST_DATE")
     private LocalDate requestDate;
