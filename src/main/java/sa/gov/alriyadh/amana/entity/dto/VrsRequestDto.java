@@ -5,24 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class VrsRequestDto {
 
-    private Long requestSerial;
+    private Long requestId;
 
-    private LocalDate requestDate;
-
-    @NotNull
-    private LocalDate startDate;
+    private String requestDate;
 
     @NotNull
-    private LocalDate endDate;
+    private String startDate;
 
     @NotNull
+    private String endDate;
+
     private Long requestPhaseId;
 
     @NotNull
@@ -32,7 +30,7 @@ public class VrsRequestDto {
     private Long dirCode;
 
     @NotNull
-    private String userCode;
+    private String dirEmployeeCode;
 
     private String notes;
 

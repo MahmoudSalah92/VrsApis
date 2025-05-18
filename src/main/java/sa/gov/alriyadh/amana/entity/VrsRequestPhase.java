@@ -14,17 +14,17 @@ import java.time.LocalDate;
 @Table(name = "VRS_REQUEST_PHASES", schema = "VRS")
 public class VrsRequestPhase {
     @Id
-    @Column(name = "REQUEST_PHASE_SERIAL", nullable = false)
+    @Column(name = "REQUEST_PHASE_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VRS_REQUEST_PHASES_SEQ")
     @SequenceGenerator(name = "VRS_REQUEST_PHASES_SEQ", sequenceName = "VRS_REQUEST_PHASES_SEQ", allocationSize = 1, schema = "VRS")
-    private Long id;
+    private Long requestPhaseId; // pk for table
 
     @NotNull
     @Column(name = "REQUEST_ID", nullable = false)
     private Long requestId;
 
-    @Column(name = "PHASE_ID")
-    private Long phaseId;
+    @Column(name = "REQUEST_PHASE_SERIAL")
+    private Long requestPhaseSerial; // serial max+1 for each request
 
     @Column(name = "FROM_ROLE_ID")
     private Long fromRoleId;
@@ -48,9 +48,9 @@ public class VrsRequestPhase {
     @Column(name = "CREATED_DATE", nullable = false)
     private LocalDate createdDate;
 
-    @Size(max = 15)
+    @Size(max = 20)
     @NotNull
-    @Column(name = "CREATED_USER", nullable = false, length = 15)
+    @Column(name = "CREATED_USER", nullable = false, length = 20)
     private String createdUser;
 
 }

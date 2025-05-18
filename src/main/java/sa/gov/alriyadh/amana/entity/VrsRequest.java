@@ -13,16 +13,13 @@ import java.time.LocalDate;
 @Table(name = "VRS_REQUESTS", schema = "VRS")
 public class VrsRequest {
     @Id
-    @Column(name = "REQUEST_SERIAL", nullable = false)
+    @Column(name = "REQUEST_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VRS_REQUESTS_SEQ")
     @SequenceGenerator(name = "VRS_REQUESTS_SEQ", sequenceName = "VRS_REQUESTS_SEQ", allocationSize = 1, schema = "VRS")
-    private Long requestSerial;
+    private Long requestId;
 
     @Column(name = "REQUEST_DATE")
     private LocalDate requestDate;
-
-    @Column(name = "REQUEST_STATUS")
-    private Long requestStatus;
 
     @Column(name = "START_DATE")
     private LocalDate startDate;
@@ -47,8 +44,9 @@ public class VrsRequest {
     @Column(name = "NOTES", length = 2000)
     private String notes;
 
-    @Column(name = "DIR_EMPLOYEE_CODE")
-    private Long dirEmployeeCode;
+    @Size(max = 20)
+    @Column(name = "DIR_EMPLOYEE_CODE", length = 20)
+    private String dirEmployeeCode;
 
     @Size(max = 2000)
     @Column(name = "DIR_EMPLOYEE_STATEMENT", length = 2000)

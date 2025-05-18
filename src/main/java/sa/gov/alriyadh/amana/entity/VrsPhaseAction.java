@@ -13,9 +13,9 @@ import javax.validation.constraints.Size;
 @Table(name = "VRS_PHASE_ACTIONS", schema = "VRS")
 public class VrsPhaseAction {
     @Id
-    @Column(name = "PHASE_ACTION_SERIAL", nullable = false)
+    @Column(name = "PHASE_ACTION_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long phaseActionId;
 
     @NotNull
     @Column(name = "PARENT_PHASE_ID", nullable = false)

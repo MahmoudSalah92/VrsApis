@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import sa.gov.alriyadh.amana.dto.response.GenericApiResponse;
 import sa.gov.alriyadh.amana.entity.VrsRole;
 import sa.gov.alriyadh.amana.entity.dto.VrsRequestDto;
+import sa.gov.alriyadh.amana.entity.dto.VrsRequestPhaseDto;
 import sa.gov.alriyadh.amana.pojo.DirTypeData;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.pojo.RoleActionView;
+import sa.gov.alriyadh.amana.pojo.VrsRequestFilter;
 import sa.gov.alriyadh.amana.services.VrsRolesService;
 import sa.gov.alriyadh.amana.services.VrsPhaseActionService;
 import sa.gov.alriyadh.amana.services.VrsRequestService;
@@ -48,7 +50,7 @@ public class ServiceController {
     }
 
     @GetMapping("/dirTypes")
-    public GenericApiResponse<?> getCssDirTypes() {
+    public GenericApiResponse<?> getVrsDirTypes() {
         Map<Integer, String> dirTypes = dirTypeData.getTypes();
         return GenericApiResponse.returnJsonTemp("0", null, dirTypes);
     }
@@ -69,6 +71,32 @@ public class ServiceController {
     public GenericApiResponse<?> addRequestPhase(@Valid @RequestBody RequestPhase requestPhase) {
         Map<String, Object> output = vrsRequestService.addRequestPhase(requestPhase);
         return GenericApiResponse.returnJsonTemp("0", null, output);
+    }
+
+
+    @PostMapping("/findRequests")
+    public GenericApiResponse<?> getRequestByFilter(@Valid @RequestBody VrsRequestFilter filter) {
+        System.out.println(filter.getUserCode());
+        List<VrsRequestDto> requests = vrsRequestService.findRequestsByFilter(filter);
+        return GenericApiResponse.returnJsonTemp("0", null, requests);
+    }
+
+    @GetMapping("/statusList")
+    public GenericApiResponse<?> getRequestStatusList() {
+        List<Object[]> statusList = vrsRequestService.getRequestStatusList();
+        return GenericApiResponse.returnJsonTemp("0", null, statusList);
+    }
+
+    @GetMapping("/requestPhases/{requestNo}")
+    public GenericApiResponse<?> getRequestPhases(@PathVariable(required = true) Long requestNo) {
+        List<VrsRequestPhaseDto> requestPhases = vrsRequestService.getRequestPhases(requestNo);
+        return GenericApiResponse.returnJsonTemp("0", null, requestPhases);
+    }
+
+    @GetMapping("/employees/{dirCode}")
+    public GenericApiResponse<?> getEmployeesByDir(@PathVariable(required = true) Long dirCode) {
+        List<Object[]> employees = vrsRequestService.getEmployeesByDir(dirCode);
+        return GenericApiResponse.returnJsonTemp("0", null, employees);
     }
 
 }

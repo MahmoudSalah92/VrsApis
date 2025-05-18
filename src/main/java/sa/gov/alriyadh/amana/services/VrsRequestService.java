@@ -6,9 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import sa.gov.alriyadh.amana.entity.VrsRequest;
 import sa.gov.alriyadh.amana.entity.VrsRequestPhase;
 import sa.gov.alriyadh.amana.entity.dto.VrsRequestDto;
+import sa.gov.alriyadh.amana.entity.dto.VrsRequestPhaseDto;
+
 import sa.gov.alriyadh.amana.mapper.VrsRequestMapper;
 import sa.gov.alriyadh.amana.pojo.PhaseActionDetailView;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
+import sa.gov.alriyadh.amana.pojo.VrsRequestFilter;
 import sa.gov.alriyadh.amana.repository.VrsPhaseActionRepository;
 import sa.gov.alriyadh.amana.repository.VrsRequestRepository;
 import sa.gov.alriyadh.amana.repository.VrsRequestPhaseRepository;
@@ -19,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VrsRequestService implements IVrsRequestService {
@@ -41,18 +45,20 @@ public class VrsRequestService implements IVrsRequestService {
     @Override
     public Map<String, Object> addNewRequest(VrsRequestDto vrsRequestDto) {
         Map<String, Object> output = new LinkedHashMap<>();
+
         VrsRequest entity = mapper.toEntity(vrsRequestDto); // sets requestDate = now
         entity.setRequestPhaseId(1L);
         VrsRequest request = vrsRequestRepository.save(entity);
         VrsRequestDto savedRequestDto = mapper.toDto(request); // return full DTO with generated requestNo and formatted dates
+
         PhaseActionDetailView actionDetail = vrsPhaseActionRepository.getRoleActionDetails(1L, 1L);
-        Long nextRequestPhaseSerial = vrsRequestPhaseRepository.getNextSerial(savedRequestDto.getRequestSerial());
+        Long nextRequestPhaseSerial = vrsRequestPhaseRepository.getNextSerial(savedRequestDto.getRequestId());
 
         VrsRequestPhase vrsRequestPhase = new VrsRequestPhase();
-        vrsRequestPhase.setRequestId(savedRequestDto.getRequestSerial());
-        vrsRequestPhase.setPhaseId(nextRequestPhaseSerial);
+        vrsRequestPhase.setRequestId(savedRequestDto.getRequestId());
+        vrsRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
         vrsRequestPhase.setCreatedDate(LocalDate.now());
-        vrsRequestPhase.setCreatedUser(savedRequestDto.getUserCode());
+        vrsRequestPhase.setCreatedUser(savedRequestDto.getDirEmployeeCode());
         vrsRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
         vrsRequestPhase.setToPhaseId(actionDetail.getToPhaseId());
         vrsRequestPhase.setFromRoleId(actionDetail.getFromRoleNo());
@@ -60,8 +66,9 @@ public class VrsRequestService implements IVrsRequestService {
         vrsRequestPhase.setNotes(actionDetail.getFromPhaseDesc());
         vrsRequestRepository.save(request);
         vrsRequestPhaseRepository.save(vrsRequestPhase);
+
         output.put("output", "Operation successful.");
-        output.put("RequestNO", savedRequestDto.getRequestSerial());
+        output.put("RequestNO", savedRequestDto.getRequestId());
         output.put("RequestStatus", actionDetail.getToPhaseDesc());
 
         return output;
@@ -79,7 +86,7 @@ public class VrsRequestService implements IVrsRequestService {
             request.get().setRequestPhaseId(actionDetail.getToPhaseId());
             VrsRequestPhase vrsRequestPhase = new VrsRequestPhase();
             vrsRequestPhase.setRequestId(requestPhase.getRequestNO());
-            vrsRequestPhase.setPhaseId(nextRequestPhaseSerial);
+            vrsRequestPhase.setRequestPhaseSerial(nextRequestPhaseSerial);
             vrsRequestPhase.setCreatedDate(LocalDate.now());
             vrsRequestPhase.setCreatedUser(requestPhase.getIssueUser());
             vrsRequestPhase.setFromPhaseId(actionDetail.getFromPhaseId());
@@ -89,14 +96,39 @@ public class VrsRequestService implements IVrsRequestService {
             vrsRequestPhase.setNotes(requestPhase.getNotes());
             vrsRequestRepository.save(request.get());
             vrsRequestPhaseRepository.save(vrsRequestPhase);
-            output.put("output", "Operation successful.");
+            output.put("output", "Operation Successful.");
             output.put("RequestNO", requestPhase.getRequestNO());
             output.put("RequestStatus", actionDetail.getToPhaseDesc());
         } else {
-            output.put("output", "Operation fail (Request not found).");
+            output.put("output", "Operation Failed (Request not found).");
             output.put("RequestNO", requestPhase.getRequestNO());
         }
 
         return output;
     }
+
+    @Override
+    public List<Object[]> getRequestStatusList() {
+        return vrsRequestRepository.getRequestStatusList();
+    }
+
+    @Override
+    public List<VrsRequestDto> findRequestsByFilter(VrsRequestFilter filter) {
+        return vrsRequestRepository.findRequestsByFilter(filter).stream()
+                .map(vrsRequest -> mapper.toDto(vrsRequest))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VrsRequestPhaseDto> getRequestPhases(Long requestNo) {
+        return vrsRequestPhaseRepository.findByRequestId(requestNo).stream()
+                .map(vrsRequestPhase -> mapper.toDto(vrsRequestPhase))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object[]> getEmployeesByDir(Long dirCode) {
+        return vrsRequestRepository.getEmployeesByDir(dirCode);
+    }
+
 }

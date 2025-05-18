@@ -13,9 +13,9 @@ import javax.validation.constraints.Size;
 @Table(name = "VRS_ROLES", schema = "VRS")
 public class VrsRole {
     @Id
-    @Column(name = "ROLE_SERIAL", nullable = false)
+    @Column(name = "ROLE_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long roleSerial;
+    private Long roleId;
 
     @Size(max = 200)
     @NotNull
