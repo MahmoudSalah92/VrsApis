@@ -19,6 +19,9 @@ public class RequestPhase {
     private Long currentRole;
     @NotNull(message = "{ACTION_ID_REQUIRED}")
     private Long actionId;
+
+    private String dirEmployeeCode;
+
     private String notes;
 
 }

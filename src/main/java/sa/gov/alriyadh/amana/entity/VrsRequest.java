@@ -2,10 +2,11 @@ package sa.gov.alriyadh.amana.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,13 +20,13 @@ public class VrsRequest {
     private Long requestId;
 
     @Column(name = "REQUEST_DATE")
-    private LocalDate requestDate;
+    private LocalDateTime requestDate;
 
     @Column(name = "START_DATE")
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     @Column(name = "END_DATE")
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     @Column(name = "DIR_TYPE")
     private Long dirType;
@@ -33,8 +34,9 @@ public class VrsRequest {
     @Column(name = "DIR_CODE")
     private Long dirCode;
 
-    @Column(name = "WORK_TEAM")
-    private Long workTeam;
+    @Size(max = 20)
+    @Column(name = "CREATED_USER")
+    private String createdUser;
 
     @Size(max = 2000)
     @Column(name = "TRANSACTION_DETAILS", length = 2000)
@@ -69,5 +71,13 @@ public class VrsRequest {
 
     @Column(name = "REQUEST_PHASE_ID")
     private Long requestPhaseId;
+
+    @Formula("(SELECT p.phase_desc FROM VRS.vrs_phases p WHERE p.phase_id = REQUEST_PHASE_ID)")
+    //@Transient
+    private String requestStatus;
+
+    //@Formula("(SELECT p.NOTES FROM VRS.vrs_request_phases p WHERE p.request_id = REQUEST_ID AND p.to_phase_id = REQUEST_PHASE_ID)")
+    @Transient
+    private String requestNotes;
 
 }

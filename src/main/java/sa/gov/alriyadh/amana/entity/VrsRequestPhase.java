@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -46,7 +46,7 @@ public class VrsRequestPhase {
 
     @NotNull
     @Column(name = "CREATED_DATE", nullable = false)
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Size(max = 20)
     @NotNull

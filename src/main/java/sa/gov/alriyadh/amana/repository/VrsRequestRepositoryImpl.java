@@ -20,8 +20,8 @@ public class VrsRequestRepositoryImpl implements VrsRequestRepositoryCustom {
 
     @Override
     public List<VrsRequest> findRequestsByFilter(VrsRequestFilter filter) {
-        StringBuilder sql = new StringBuilder("SELECT REQ.*, (SELECT P.PHASE_DESC FROM VRS.VRS_PHASES P " +
-                "WHERE P.PHASE_ID = REQ.REQUEST_PHASE_ID) REQUEST_STATUS" +
+        StringBuilder sql = new StringBuilder("SELECT REQ.*,PH.NOTES AS requestNotes, (SELECT P.PHASE_DESC FROM VRS.VRS_PHASES P " +
+                "WHERE P.PHASE_ID = REQ.REQUEST_PHASE_ID) requestStatus" +
                 " FROM VRS.VRS_REQUESTS REQ, VRS.VRS_REQUEST_PHASES PH ");
         sql.append("WHERE REQ.REQUEST_ID = PH.REQUEST_ID ");
         sql.append("AND REQ.REQUEST_PHASE_ID = PH.TO_PHASE_ID ");

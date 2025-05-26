@@ -21,7 +21,7 @@ public interface VrsPhaseActionRepository extends JpaRepository<VrsPhaseAction, 
             "         AC.CHILD_PHASE_ID = PH_CHILD.PHASE_ID\n" +
             "         AND PH_CHILD.FROM_ROLE_NO = :role\n" +
             "ORDER BY AC.ACTION_ORDER ASC", nativeQuery = true)
-    List<RoleActionView[]> getRoleActions(@Param("role") Long role);
+    List<RoleActionView> getRoleActions(@Param("role") Long role);
 
     @Query(value = "SELECT AC.PHASE_ACTION_ID phaseActionId,\n" +
             "         PH_PARENT.PHASE_ID       fromPhaseId,\n" +

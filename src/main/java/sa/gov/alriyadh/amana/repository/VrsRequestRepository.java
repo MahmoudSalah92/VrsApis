@@ -16,10 +16,12 @@ public interface VrsRequestRepository extends JpaRepository<VrsRequest, Long>, V
     @Query(value = "SELECT PHASE_ID, PHASE_DESC FROM VRS.VRS_PHASES ORDER BY 1", nativeQuery = true)
     List<Object[]> getRequestStatusList();
 
-    default List<VrsRequest> findByRequestId(Long requestNo) {
-        return null;
-    }
+//  default List<VrsRequest> findByRequestId(Long requestNo) {
+//      return null;
+//  }
 
     @Query(value = "SELECT USER_CODE, USER_NAME FROM CMNV3.CMN_USERS WHERE DIR_CODE = :dirCode ORDER BY 1", nativeQuery = true)
     List<Object[]> getEmployeesByDir(@Param("dirCode") Long dirCode);
+
+//  SELECT USER_CODE, USER_NAME FROM CMNV3.CMN_USERS WHERE DIR_CODE = 8; موظفين الادارة العامة للمراجعة الداخلية
 }

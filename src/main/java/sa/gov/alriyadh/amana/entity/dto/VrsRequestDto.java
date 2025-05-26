@@ -1,5 +1,6 @@
 package sa.gov.alriyadh.amana.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,16 @@ public class VrsRequestDto {
     @NotNull
     private String dirEmployeeCode;
 
-    private String notes;
+    private Long transactionNo;
+
+    private String transactionDetails;
+
+    private String createdUser;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String requestStatus;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String requestNotes;
 
 }

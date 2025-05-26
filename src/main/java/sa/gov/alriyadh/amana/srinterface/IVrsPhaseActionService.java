@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IVrsPhaseActionService {
 
-    List<RoleActionView[]> getActions(Long role);
+    List<RoleActionView> getActions(Long role);
 
     PhaseActionDetailView getRoleActionDetail(Long role, Long actionId);
 

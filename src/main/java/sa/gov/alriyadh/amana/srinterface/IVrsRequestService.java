@@ -2,6 +2,7 @@ package sa.gov.alriyadh.amana.srinterface;
 
 import sa.gov.alriyadh.amana.entity.dto.VrsRequestDto;
 import sa.gov.alriyadh.amana.entity.dto.VrsRequestPhaseDto;
+import sa.gov.alriyadh.amana.entity.dto.VrsRequestWorkTeamDto;
 import sa.gov.alriyadh.amana.pojo.RequestPhase;
 import sa.gov.alriyadh.amana.pojo.VrsRequestFilter;
 
@@ -23,5 +24,9 @@ public interface IVrsRequestService {
     List<VrsRequestPhaseDto> getRequestPhases(Long requestNo);
 
     List<Object[]> getEmployeesByDir(Long dirCode);
+
+    Map<String, Object> addEmployeeToWorkTeam(VrsRequestWorkTeamDto requestWorkTeamDto);
+
+    Map<String, Object> deleteEmployeeFromWorkTeam(Long workTeamId);
 
 }

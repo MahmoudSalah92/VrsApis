@@ -16,14 +16,15 @@ public class ResourceServerEndpointConfig extends ResourceServerConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/api/serviceController/*").hasAuthority("ADMIN_ROLE");
+        http.authorizeRequests().antMatchers("/vrs/api/services/*").hasAuthority("ADMIN_ROLE");
+        //http.authorizeRequests().antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll().anyRequest().authenticated();
     }
 
     @Bean
     public ResourceServerTokenServices tokenService() {
         RemoteTokenServices tokenServices = new RemoteTokenServices();
-        tokenServices.setClientId("admin@amana.com");
-        tokenServices.setClientSecret("$2a$08$fL7u5xcvsZl78su29x1ti.dxI.9rYO8t0q5wk2ROJ.1cdR53bmaVG");
+        tokenServices.setClientId("INTERNAL_API_CLIENT");
+        tokenServices.setClientSecret("$2a$08$fL7u5xcvsZl78su29x1ti");
         tokenServices.setCheckTokenEndpointUrl(authURL);
         return tokenServices;
     }
